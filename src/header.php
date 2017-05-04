@@ -13,6 +13,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="<?php bloginfo('description'); ?>">
 
+		<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+
 		<?php wp_head(); ?>
 		<script>
         // conditionizr.com
