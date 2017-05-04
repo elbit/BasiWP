@@ -95,15 +95,18 @@ function html5blank_header_scripts()
 {
     if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
         if (HTML5_DEBUG) {
-            // jQuery
-            wp_deregister_script('jquery');
-            wp_register_script('jquery', get_template_directory_uri() . '/bower_components/jquery/dist/jquery.js', array(), '1.11.1');
+            // jQuery --> left wp jq pre-packaged v1.22--> added on top v 3.1.1 to avoid conflicts and use with semantic.js ( $/jQuery)
+            // wp_deregister_script('jquery');
+            // wp_register_script('jquery',' https://cojquery.com/jquery-3.1.1.min.js', array(), '3.1.1');
 
             // Conditionizr
             wp_register_script('conditionizr', get_template_directory_uri() . '/js/lib/conditionizr-4.3.0.min.js', array(), '4.3.0');
 
             // Modernizr
             wp_register_script('modernizr', get_template_directory_uri() . '/bower_components/modernizr/modernizr.js', array(), '2.8.3');
+
+            // Modernizr
+            wp_register_script('semantic-ui-js', 'https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js', array(), '2.10');
 
             // Custom scripts
             wp_register_script(
@@ -112,7 +115,7 @@ function html5blank_header_scripts()
                 array(
                     'conditionizr',
                     'modernizr',
-                    'jquery'),
+                    'semantic-ui-js'),
                 '1.0.0');
 
             // Enqueue Scripts
@@ -142,11 +145,17 @@ function html5blank_conditional_scripts()
 function html5blank_styles()
 {
     if (HTML5_DEBUG) {
-        // normalize-css
-        wp_register_style('normalize', get_template_directory_uri() . '/bower_components/normalize.css/normalize.css', array(), '3.0.1');
+        // normalize-css --> not used semantic-ui reset is included on package
+        // wp_register_style('normalize', get_template_directory_uri() . '/bower_components/normalize.css/normalize.css', array(), '3.0.1');
+
+
+        // semantic Ui
+        wp_register_style('semantic-Ui', get_template_directory_uri() . '/css/semantic-ui/css/semantic.css',array(), '0.1');
+
 
         // Custom CSS
-        wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array('normalize'), '1.0');
+        wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array('semantic-Ui'), '2.10');
+
 
         // Register CSS
         wp_enqueue_style('html5blank');
