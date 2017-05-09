@@ -47,53 +47,6 @@
 }
 */
 /**
- * partials/reset
- * ---
- * Reset file
- * NOTE: also `normalize.css` is used
- */
-*,
-*:after,
-*:before {
-  box-sizing: border-box; }
-
-html {
-  font-size: 62.5%;
-  -webkit-tap-highlight-color: transparent; }
-
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, "Open Sans", sans-serif;
-  font-size: 140%;
-  line-height: 1.5;
-  color: #444;
-  background-color: #fff; }
-
-img {
-  max-width: 100%;
-  vertical-align: middle; }
-
-a {
-  color: #444;
-  text-decoration: none; }
-  a:focus, a:hover {
-    text-decoration: underline; }
-
-input[type="text"],
-input[type="search"] {
-  font-size: inherit;
-  line-height: inherit; }
-
-::-moz-selection {
-  background-color: #04A4CC;
-  color: #fff;
-  text-shadow: none; }
-
-::selection {
-  background-color: #04A4CC;
-  color: #fff;
-  text-shadow: none; }
-
-/**
  * partials/wordpress
  * ---
  * Wordpess core classes
@@ -170,6 +123,15 @@ input[type="search"] {
  * partials/header
  * ---
  */
+.site-header {
+  margin-bottom: 1rem; }
+
+.container {
+  margin-bottom: 1rem; }
+
+.cta {
+  margin-top: 100px; }
+
 /**
  * partials/nav
  * ---

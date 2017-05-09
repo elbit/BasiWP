@@ -83,12 +83,84 @@ function html5blank_nav()
         'after'           => '',
         'link_before'     => '',
         'link_after'      => '',
-        'items_wrap'      => '<ul>%3$s</ul>',
+        'items_wrap'      => '<ul class="ui  menu">%3$s</ul>',
         'depth'           => 0,
-        'walker'          => ''
+        'walker'          => new description_walker()
         )
     );
 }
+
+
+
+class description_walker extends Walker_Nav_Menu {
+   public function start_lvl( &$output, $depth = 0, $args = array() ) {
+      $indent = str_repeat("\t", $depth);
+      
+      // add the dropdown CSS class
+      $output .= "\n$indent<div class=\"ui floating dropdown \"><i class=\"dropdown icon\"></i><ul class=\"menu\">\n";
+   }
+   public function display_element( $element, &$children_elements, $max_depth, $depth = 0, $args, &$output ) {
+      
+      // add 'not-click' class to the list item
+      $element->classes[] = '';
+
+      // if element is current or is an ancestor of the current element, add 'active' class to the list item
+      $element->classes[] = ( $element->current || $element->current_item_ancestor ) ? 'active' : '';
+
+      // if it is a root element and the menu is not flat, add 'has-dropdown' class 
+      // from https://core.trac.wordpress.org/browser/trunk/src/wp-includes/class-wp-walker.php#L140
+      $element->has_children = ! empty( $children_elements[ $element->ID ] );
+      $element->classes[] = ( $element->has_children && 1 !== $max_depth ) ? 'has-dropdown' : '';
+
+      // call parent method
+      parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
+   }
+
+   function start_el(&$output, $item, $depth, $args)
+      {
+           global $wp_query;
+           $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+
+           $class_names = $value = '';
+
+           $classes = empty( $item->classes ) ? array() : (array) $item->classes;
+
+           $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
+           $class_names = ' class="'. esc_attr( $class_names ) . '"';
+
+           $output .= $indent . '<li class="item item-'. $item->ID . '"' . $value . $class_names .'>';
+
+           $attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
+           $attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
+           $attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
+           $attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
+
+           // $prepend = '<strong>';
+           // $append = '</strong>';
+           $description  = ! empty( $item->description ) ? '<span>'.esc_attr( $item->description ).'</span>' : '';
+
+           if($depth != 0)
+           {
+                     $description = $append = $prepend = "";
+           }
+
+            $item_output = $args->before;
+            $item_output .= '<a'. $attributes .'>';
+            $item_output .= $args->link_before .$prepend.apply_filters( 'the_title', $item->title, $item->ID ).$append;
+            $item_output .= $description.$args->link_after;
+            $item_output .= '</a>';
+            $item_output .= $args->after;
+
+            $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+            }
+}
+
+
+
+
+
+
+
 
 // Load HTML5 Blank scripts (header.php)
 function html5blank_header_scripts()
@@ -106,7 +178,7 @@ function html5blank_header_scripts()
             wp_register_script('modernizr', get_template_directory_uri() . '/bower_components/modernizr/modernizr.js', array(), '2.8.3');
 
             // Modernizr
-            wp_register_script('semantic-ui-js', 'https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js', array(), '2.10');
+            wp_register_script('semantic-ui-js', 'https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js', array(), '2.10');
 
             // Custom scripts
             wp_register_script(
@@ -150,7 +222,7 @@ function html5blank_styles()
 
 
         // semantic Ui
-        wp_register_style('semantic-Ui', get_template_directory_uri() . '/css/semantic-ui/css/semantic.css',array(), '0.1');
+        wp_register_style('semantic-Ui', get_template_directory_uri() . '/css/semantic-ui/css/esemantic.css',array(), '0.1');
 
 
         // Custom CSS
@@ -276,7 +348,7 @@ function html5wp_pagination()
 // Custom Excerpts
 function html5wp_index($length) // Create 20 Word Callback for Index page Excerpts, call using html5wp_excerpt('html5wp_index');
 {
-    return 20;
+    return 40;
 }
 
 // Create 40 Word Callback for Custom Post Excerpts, call using html5wp_excerpt('html5wp_custom_post');
@@ -419,7 +491,7 @@ add_filter('body_class', 'add_slug_to_body_class'); // Add slug to body class (S
 add_filter('widget_text', 'do_shortcode'); // Allow shortcodes in Dynamic Sidebar
 add_filter('widget_text', 'shortcode_unautop'); // Remove <p> tags in Dynamic Sidebars (better!)
 add_filter('wp_nav_menu_args', 'my_wp_nav_menu_args'); // Remove surrounding <div> from WP Navigation
-// add_filter('nav_menu_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected classes (Commented out by default)
+add_filter('nav_menu_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected classes (Commented out by default)
 // add_filter('nav_menu_item_id', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected ID (Commented out by default)
 // add_filter('page_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> Page ID's (Commented out by default)
 add_filter('the_category', 'remove_category_rel_from_category_list'); // Remove invalid rel attribute
