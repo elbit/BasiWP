@@ -83,7 +83,7 @@ function html5blank_nav()
         'after'           => '',
         'link_before'     => '',
         'link_after'      => '',
-        'items_wrap'      => '<ul class="ui  menu">%3$s</ul>',
+        'items_wrap'      => '<ul class="dropdown menu" data-dropdown-menu>%3$s</ul>',
         'depth'           => 0,
         'walker'          => new description_walker()
         )
@@ -97,7 +97,7 @@ class description_walker extends Walker_Nav_Menu {
       $indent = str_repeat("\t", $depth);
       
       // add the dropdown CSS class
-      $output .= "\n$indent<div class=\"ui floating dropdown \"><i class=\"dropdown icon\"></i><ul class=\"menu\">\n";
+      $output .= "\n$indent<ul class=\"menu\">\n";
    }
    public function display_element( $element, &$children_elements, $max_depth, $depth = 0, $args, &$output ) {
       
@@ -172,22 +172,21 @@ function html5blank_header_scripts()
             // wp_register_script('jquery',' https://cojquery.com/jquery-3.1.1.min.js', array(), '3.1.1');
 
             // Conditionizr
-            wp_register_script('conditionizr', get_template_directory_uri() . '/js/lib/conditionizr-4.3.0.min.js', array(), '4.3.0');
+            // wp_register_script('conditionizr', get_template_directory_uri() . '/js/lib/conditionizr-4.3.0.min.js', array(), '4.3.0');
 
             // Modernizr
             wp_register_script('modernizr', get_template_directory_uri() . '/bower_components/modernizr/modernizr.js', array(), '2.8.3');
 
-            // Modernizr
-            wp_register_script('semantic-ui-js', 'https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js', array(), '2.10');
+            // foundation-js
+            // wp_register_script('foundation-js', 'https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js', array(), '2.10',true);
 
             // Custom scripts
             wp_register_script(
                 'html5blankscripts',
                 get_template_directory_uri() . '/js/scripts.js',
                 array(
-                    'conditionizr',
                     'modernizr',
-                    'semantic-ui-js'),
+                    ),
                 '1.0.0');
 
             // Enqueue Scripts
@@ -217,16 +216,16 @@ function html5blank_conditional_scripts()
 function html5blank_styles()
 {
     if (HTML5_DEBUG) {
-        // normalize-css --> not used semantic-ui reset is included on package
+        // normalize-css --> not used foundation-ui reset is included on package
         // wp_register_style('normalize', get_template_directory_uri() . '/bower_components/normalize.css/normalize.css', array(), '3.0.1');
 
 
-        // semantic Ui
-        wp_register_style('semantic-Ui', get_template_directory_uri() . '/css/semantic-ui/css/esemantic.css',array(), '0.1');
+        // // foundation custom with flex-box
+        wp_register_style('foundation', get_template_directory_uri() . '/css/foundation/css/app.css',array(), '0.1');
 
 
         // Custom CSS
-        wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array('semantic-Ui'), '2.10');
+        wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array('foundation'), '2.10');
 
 
         // Register CSS

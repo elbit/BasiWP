@@ -13,42 +13,25 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="<?php bloginfo('description'); ?>">
 
-			<script
-	  src="https://code.jquery.com/jquery-3.1.1.min.js"
-	  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-	  crossorigin="anonymous"></script>
-
-		<?php wp_head(); ?>
-		<script>
-        // conditionizr.com
-        // configure environment tests
-        conditionizr.config({
-            assets: '<?php echo get_template_directory_uri(); ?>',
-            tests: {}
-        });
-        </script>
-
-
-        
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css" integrity="sha256-itWEYdFWzZPBG78bJOOiQIn06QCgN/F0wMDcC4nOhxY=" crossorigin="anonymous" />
 			
-
+		<?php wp_head(); ?>
+	
 </head>
-	<body <?php body_class(); ?>>
+
+<body <?php body_class(); ?>>
     <!-- wrapper -->
     <div class="wrapper">
-        <!-- header -->
-        <header class="row" role="banner">
+		<!-- header -->
+        <header class="" role="banner">
             <!-- logo -->
-            <div class="column">
-                <a href="<?php echo home_url(); ?>">
-                   
-                    <img class="ui image fluid" src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="Logo" class="logo-img">
-                </a>
-            </div>
-            <!-- /logo -->
-            <!-- nav -->
-            <nav class="nav column menu" "role="navigation">
+            <div class="row">
+			    <a href="<?php echo home_url(); ?>">
+			        <img class="logo-img" src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="Logo">
+			    </a>  <!-- /logo -->
+			</div>
+
+          	<!-- nav -->
+            <nav class="nav top-bar row" "role="navigation">
                 <?php html5blank_nav(); ?>
             </nav>
             <!-- /nav -->
@@ -57,14 +40,16 @@
 
         <!-- /header -->
 
-        <div class=" buttons">
-			<button href="" class="ui button "><i class="Whatsapp icon"></i>Whatsapp</button>
-			<button href="" class="ui button "><i class="calendar icon"></i>Addentra</button>
-			<button href="" class="ui button "><i class="phone icon"></i>telefono</button>
-			<button href="" class="ui button "><i class="ui envelope icon"></i>Contacto</button>
+        
+        <div class="row button-group align-right">
+			<a href="" class="button" "><i class="fa whatsapp icon"></i>Whatsapp</a>
+			<a href="" class="button" "><i class="calendar icon"></i>Addentra</a>
+			<a href="" class="button" "><i class="phone icon"></i>telefono</a>
+			<a href="" class="button" "><i class="ui envelope icon"></i>Contacto</a>
 		</div>
 
-       <div class="warning message icon ">
+
+		<div class="warning message icon ">
 				<?php			
 
 				$args = array( 'post_type' => 'avisos', 'posts_per_page' => 1 );
