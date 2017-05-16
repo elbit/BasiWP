@@ -30,7 +30,7 @@ if (function_exists('add_theme_support'))
     add_image_size('large', 700, '', true); // Large Thumbnail
     add_image_size('medium', 250, '', true); // Medium Thumbnail
     add_image_size('small', 120, '', true); // Small Thumbnail
-    add_image_size('custom-size', 700, 200, true); // Custom Thumbnail Size call using the_post_thumbnail('custom-size');
+    add_image_size('custom-size', '', 200, true); // Custom Thumbnail Size call using the_post_thumbnail('custom-size');
 
     // Add Support for Custom Backgrounds - Uncomment below if you're going to use
     /*add_theme_support('custom-background', array(
@@ -83,12 +83,84 @@ function html5blank_nav()
         'after'           => '',
         'link_before'     => '',
         'link_after'      => '',
-        'items_wrap'      => '<ul>%3$s</ul>',
+        'items_wrap'      => '<ul class="dropdown menu" data-dropdown-menu>%3$s</ul>',
         'depth'           => 0,
-        'walker'          => ''
+        'walker'          => new description_walker()
         )
     );
 }
+
+
+
+class description_walker extends Walker_Nav_Menu {
+   public function start_lvl( &$output, $depth = 0, $args = array() ) {
+      $indent = str_repeat("\t", $depth);
+      
+      // add the dropdown CSS class
+      $output .= "\n$indent<ul class=\"menu\">\n";
+   }
+   public function display_element( $element, &$children_elements, $max_depth, $depth = 0, $args, &$output ) {
+      
+      // add 'not-click' class to the list item
+      $element->classes[] = '';
+
+      // if element is current or is an ancestor of the current element, add 'active' class to the list item
+      $element->classes[] = ( $element->current || $element->current_item_ancestor ) ? 'active' : '';
+
+      // if it is a root element and the menu is not flat, add 'has-dropdown' class 
+      // from https://core.trac.wordpress.org/browser/trunk/src/wp-includes/class-wp-walker.php#L140
+      $element->has_children = ! empty( $children_elements[ $element->ID ] );
+      $element->classes[] = ( $element->has_children && 1 !== $max_depth ) ? 'has-dropdown' : '';
+
+      // call parent method
+      parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
+   }
+
+   function start_el(&$output, $item, $depth, $args)
+      {
+           global $wp_query;
+           $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+
+           $class_names = $value = '';
+
+           $classes = empty( $item->classes ) ? array() : (array) $item->classes;
+
+           $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
+           $class_names = ' class="'. esc_attr( $class_names ) . '"';
+
+           $output .= $indent . '<li class="item item-'. $item->ID . '"' . $value . $class_names .'>';
+
+           $attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
+           $attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
+           $attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
+           $attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
+
+           // $prepend = '<strong>';
+           // $append = '</strong>';
+           $description  = ! empty( $item->description ) ? '<span>'.esc_attr( $item->description ).'</span>' : '';
+
+           if($depth != 0)
+           {
+                     $description = $append = $prepend = "";
+           }
+
+            $item_output = $args->before;
+            $item_output .= '<a'. $attributes .'>';
+            $item_output .= $args->link_before .$prepend.apply_filters( 'the_title', $item->title, $item->ID ).$append;
+            $item_output .= $description.$args->link_after;
+            $item_output .= '</a>';
+            $item_output .= $args->after;
+
+            $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+            }
+}
+
+
+
+
+
+
+
 
 // Load HTML5 Blank scripts (header.php)
 function html5blank_header_scripts()
@@ -100,22 +172,21 @@ function html5blank_header_scripts()
             // wp_register_script('jquery',' https://cojquery.com/jquery-3.1.1.min.js', array(), '3.1.1');
 
             // Conditionizr
-            wp_register_script('conditionizr', get_template_directory_uri() . '/js/lib/conditionizr-4.3.0.min.js', array(), '4.3.0');
+            // wp_register_script('conditionizr', get_template_directory_uri() . '/js/lib/conditionizr-4.3.0.min.js', array(), '4.3.0');
 
             // Modernizr
             wp_register_script('modernizr', get_template_directory_uri() . '/bower_components/modernizr/modernizr.js', array(), '2.8.3');
 
-            // Modernizr
-            wp_register_script('semantic-ui-js', 'https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js', array(), '2.10');
+            // foundation-js
+            // wp_register_script('foundation-js', 'https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js', array(), '2.10',true);
 
             // Custom scripts
             wp_register_script(
                 'html5blankscripts',
                 get_template_directory_uri() . '/js/scripts.js',
                 array(
-                    'conditionizr',
                     'modernizr',
-                    'semantic-ui-js'),
+                    ),
                 '1.0.0');
 
             // Enqueue Scripts
@@ -145,16 +216,16 @@ function html5blank_conditional_scripts()
 function html5blank_styles()
 {
     if (HTML5_DEBUG) {
-        // normalize-css --> not used semantic-ui reset is included on package
+        // normalize-css --> not used foundation-ui reset is included on package
         // wp_register_style('normalize', get_template_directory_uri() . '/bower_components/normalize.css/normalize.css', array(), '3.0.1');
 
 
-        // semantic Ui
-        wp_register_style('semantic-Ui', get_template_directory_uri() . '/css/semantic-ui/css/semantic.css',array(), '0.1');
+        // // foundation custom with flex-box
+        wp_register_style('foundation', get_template_directory_uri() . '/css/foundation/css/app.css',array(), '0.1');
 
 
         // Custom CSS
-        wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array('semantic-Ui'), '2.10');
+        wp_register_style('html5blank', get_template_directory_uri() . '/style.css', array('foundation'), '2.10');
 
 
         // Register CSS
@@ -229,7 +300,7 @@ if (function_exists('register_sidebar'))
         'name' => __('Widget Area 1', 'html5blank'),
         'description' => __('Description for this widget-area...', 'html5blank'),
         'id' => 'widget-area-1',
-        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'before_widget' => '<div id="%1$s" class="card">',
         'after_widget' => '</div>',
         'before_title' => '<h3>',
         'after_title' => '</h3>'
@@ -276,7 +347,7 @@ function html5wp_pagination()
 // Custom Excerpts
 function html5wp_index($length) // Create 20 Word Callback for Index page Excerpts, call using html5wp_excerpt('html5wp_index');
 {
-    return 20;
+    return 30;
 }
 
 // Create 40 Word Callback for Custom Post Excerpts, call using html5wp_excerpt('html5wp_custom_post');
@@ -419,7 +490,7 @@ add_filter('body_class', 'add_slug_to_body_class'); // Add slug to body class (S
 add_filter('widget_text', 'do_shortcode'); // Allow shortcodes in Dynamic Sidebar
 add_filter('widget_text', 'shortcode_unautop'); // Remove <p> tags in Dynamic Sidebars (better!)
 add_filter('wp_nav_menu_args', 'my_wp_nav_menu_args'); // Remove surrounding <div> from WP Navigation
-// add_filter('nav_menu_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected classes (Commented out by default)
+add_filter('nav_menu_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected classes (Commented out by default)
 // add_filter('nav_menu_item_id', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> injected ID (Commented out by default)
 // add_filter('page_css_class', 'my_css_attributes_filter', 100, 1); // Remove Navigation <li> Page ID's (Commented out by default)
 add_filter('the_category', 'remove_category_rel_from_category_list'); // Remove invalid rel attribute
