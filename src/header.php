@@ -15,53 +15,56 @@
 
 			
 		<?php wp_head(); ?>
+
+		<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/fonts/css/ionicons.min.css">
 	
 </head>
 
 <body <?php body_class(); ?>>
     <!-- wrapper -->
-    <div class="wrapper">
-		<!-- header -->
-        <header class="" role="banner">
-            <!-- logo -->
-            <div class="row">
-			    <a href="<?php echo home_url(); ?>">
-			        <img class="logo-img" src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="Logo">
-			    </a>  <!-- /logo -->
-			</div>
+    <div class="wrapper" >
+		
+		<div >
+	        <header id="sticker" class="top-bar" role="banner" >
+	          
+				<div class="top-bar-left">
+				    <a href="<?php echo home_url(); ?>">
+				        <img class="logo-img" src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="Logo" >
+				    </a>  
+				</div>
 
-          	<!-- nav -->
-            <nav class="nav top-bar row" "role="navigation">
-                <?php html5blank_nav(); ?>
-            </nav>
-            <!-- /nav -->
-        
-        </header>
-
-        <!-- /header -->
-
-        
-        <div class="row button-group align-right">
-			<a href="" class="button" "><i class="fa whatsapp icon"></i>Whatsapp</a>
-			<a href="" class="button" "><i class="calendar icon"></i>Addentra</a>
-			<a href="" class="button" "><i class="phone icon"></i>telefono</a>
-			<a href="" class="button" "><i class="ui envelope icon"></i>Contacto</a>
+	          	<nav class="top-bar-right" "role="navigation">
+	                <?php html5blank_nav(); ?>
+	            </nav>
+	            
+	        </header>
 		</div>
 
+		<div class="expanded row contact-hub button-group ">
+			<a href="" class="button column whatsapp" "><i class="icon ion-social-whatsapp"></i> </i>Whatsapp</a>
+			<a href="" class="button column addentra" "><i class="fi-calendar icon"> </i>Cita Online</a>
+			<a href="" class="button column phone" "><i class="fi-telephone icon"> </i>Teléfono</a>
+			<a href="" class="button column contacto" "><i class="fi-mail icon"> </i>Contacto</a>
+		</div>
 
-		<div class="warning message icon ">
-				<?php			
+		<div class="row" >
 
-				$args = array( 'post_type' => 'avisos', 'posts_per_page' => 1 );
-				$loop = new WP_Query( $args );
-				while ( $loop->have_posts() ) : $loop->the_post();
-				 
-				  echo ' <i class="calendar icon"></i><i class="close icon"></i><div class="header center" >';
-				  the_content(); 
-				  echo ' '; the_field('avis');  the_field('data'); echo '';
-				  echo '</div>';
-				endwhile;
+		 	<div class="column callout alert text-center" data-closable  style="z-index: 0; margin-top: -2rem;">
+				    <?php			
 
-				?>
+								$args = array( 'post_type' => 'avisos', 'posts_per_page' => 1 );
+								$loop = new WP_Query( $args );
+								while ( $loop->have_posts() ) : $loop->the_post();
+								 
+								  echo '<p> <i class="fi-calendar icon icon-large"></i>';
+								  the_content(); 
+								  echo ' '; the_field('avis');  the_field('data'); echo '</p>';
+								  echo '<button class="close-button" aria-label="Dismiss alert" type="button" data-close><span aria-hidden="true">&times;</span>
+								  </button>';
+								endwhile;
+
+								?>
+				</div>
 
 		</div>
+		

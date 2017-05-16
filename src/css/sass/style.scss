@@ -8,15 +8,45 @@
 @import "modules/variables";
 @import "modules/mixins";
 @import "modules/fonts";
+@import "modules/foundation-icons";
+@import "modules/icons";
 
-// Partials
+
+// PARTIALS
 //@import "partials/reset";
+
 @import "partials/wordpress";
 @import "partials/utils";
+
+	// elements
+
+@import "partials/cards";
+@import "partials/contact-hub";
+@import "partials/callout";
+
+
+	
+	//Parts
+
 @import "partials/wrapper";
-@import "partials/header";
-@import "partials/nav";
 @import "partials/sidebar";
-@import "partials/front-page_static";
+@import "partials/section";
 @import "partials/footer";
 @import "partials/print";
+
+	// Header
+
+@import "partials/header";
+@import "partials/top-bar";
+@import "partials/nav";
+
+
+	//Home
+
+@import "partials/clinica-home";
+@import "partials/home-loop";
+
+
+
+
+

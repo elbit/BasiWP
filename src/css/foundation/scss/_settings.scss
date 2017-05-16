@@ -56,17 +56,18 @@ $foundation-palette: (
   warning: #ffae00,
   alert: #cc4b37,
 );
-$light-gray: #e6e6e6;
-$medium-gray: #cacaca;
-$dark-gray: #8a8a8a;
-$black: #333;
-$white: #fefefe;
+  $light-gray: lighten(#333,55%);
+  $medium-gray:lighten(#333,35%);
+  $dark-gray:lighten(#333,15%);
+  $black: #333;
+  $white: #fefefe;
 $body-background: $white;
 $body-font-color: $black;
 $body-font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
 $body-antialiased: true;
-$global-margin: 1rem;
-$global-padding: 1rem;
+$global-margin: 2rem;
+$global-padding: 2rem;
+$global-padding2: 1rem;
 $global-weight-normal: normal;
 $global-weight-bold: bold;
 $global-radius: 5px;
@@ -95,8 +96,8 @@ $breakpoint-classes: (small medium large);
 $grid-row-width: $global-width;
 $grid-column-count: 12;
 $grid-column-gutter: (
-  small: 20px,
-  medium: 30px,
+  small: 2rem,
+  medium: 3rem,
 );
 $grid-column-align-edge: true;
 $block-grid-max: 8;
@@ -263,8 +264,8 @@ $button-transition: background-color 0.25s ease-out, color 0.25s ease-out;
 // 12. Button Group
 // ----------------
 
-$buttongroup-margin: 1rem;
-$buttongroup-spacing: 1px;
+$buttongroup-margin: 2rem;
+$buttongroup-spacing: 1rem;
 $buttongroup-child-selector: '.button';
 $buttongroup-expand-max: 6;
 $buttongroup-radius-on-each: true;
@@ -275,7 +276,7 @@ $buttongroup-radius-on-each: true;
 $callout-background: $white;
 $callout-background-fade: 85%;
 $callout-border: 1px solid rgba($black, 0.25);
-$callout-margin: 0 0 1rem 0;
+$callout-margin: 0 0 2rem 0;
 $callout-padding: 1rem;
 $callout-font-color: $body-font-color;
 $callout-font-color-alt: $body-background;
@@ -288,10 +289,10 @@ $callout-link-tint: 30%;
 $card-background: $white;
 $card-font-color: $body-font-color;
 $card-divider-background: $light-gray;
-$card-border: 1px solid $light-gray;
-$card-shadow: none;
+$card-border: 1px solid $medium-gray;
+$card-shadow: rgba(0, 0, 0, 0.14902) 0px 2px 2px -2px;
 $card-border-radius: $global-radius;
-$card-padding: $global-padding;
+$card-padding: $global-padding2;
 $card-margin: $global-margin;
 
 // 15. Close Button
@@ -612,7 +613,7 @@ $tooltip-radius: $global-radius;
 // 37. Top Bar
 // -----------
 
-$topbar-padding: 0.5rem;
+$topbar-padding: 1.5rem;
 $topbar-background: $white;
 $topbar-submenu-background: $topbar-background;
 $topbar-title-spacing: 0.5rem 1rem 0.5rem 0;

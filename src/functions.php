@@ -30,7 +30,7 @@ if (function_exists('add_theme_support'))
     add_image_size('large', 700, '', true); // Large Thumbnail
     add_image_size('medium', 250, '', true); // Medium Thumbnail
     add_image_size('small', 120, '', true); // Small Thumbnail
-    add_image_size('custom-size', 700, 200, true); // Custom Thumbnail Size call using the_post_thumbnail('custom-size');
+    add_image_size('custom-size', '', 200, true); // Custom Thumbnail Size call using the_post_thumbnail('custom-size');
 
     // Add Support for Custom Backgrounds - Uncomment below if you're going to use
     /*add_theme_support('custom-background', array(
@@ -300,7 +300,7 @@ if (function_exists('register_sidebar'))
         'name' => __('Widget Area 1', 'html5blank'),
         'description' => __('Description for this widget-area...', 'html5blank'),
         'id' => 'widget-area-1',
-        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'before_widget' => '<div id="%1$s" class="card">',
         'after_widget' => '</div>',
         'before_title' => '<h3>',
         'after_title' => '</h3>'
@@ -347,7 +347,7 @@ function html5wp_pagination()
 // Custom Excerpts
 function html5wp_index($length) // Create 20 Word Callback for Index page Excerpts, call using html5wp_excerpt('html5wp_index');
 {
-    return 40;
+    return 30;
 }
 
 // Create 40 Word Callback for Custom Post Excerpts, call using html5wp_excerpt('html5wp_custom_post');
