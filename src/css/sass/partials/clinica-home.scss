@@ -1,0 +1,40 @@
+
+.clinica-home-hub {}
+
+.clinica-home {
+    z-index: 1;
+    font-size: 0.9rem;
+}
+
+.clinica-home-header {
+    font-size: 2.5rem;
+}
+
+.clinica-home-media {
+    .icon {
+        text-align: center;
+        font-size: 3rem;
+        color: $secondary;
+    }
+    .card {
+        width: 30%;
+    }
+}
+
+.tratamientos-home {
+    .card {
+        max-width: 19%;
+        flex-basis:19%; //safari os bug https://github.com/philipwalton/flexbugs
+    }
+}
+
+// .row {  /// override foundation grid
+
+// 	margin:0 auto!important; 
+// }
+
+// .column {
+// 	padding: 0!important;
+// }
+
+
